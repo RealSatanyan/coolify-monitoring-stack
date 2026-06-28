@@ -38,6 +38,8 @@ services:
       - GF_SERVER_ROOT_URL=${SERVICE_URL_GRAFANA}
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
 
 volumes:
   prometheus-data:
