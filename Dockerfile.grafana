@@ -1,3 +1,9 @@
 FROM grafana/grafana:11.5.2
+USER root
+RUN apk add --no-cache python3
 COPY grafana/provisioning /etc/grafana/provisioning
-COPY grafana/dashboards /etc/grafana/dashboards
+COPY grafana/gen-dashboards.py /tmp/gen-dashboards.py
+RUN python3 /tmp/gen-dashboards.py /etc/grafana/dashboards \
+ && rm -f /tmp/gen-dashboards.py \
+ && chown -R grafana:root /etc/grafana/provisioning /etc/grafana/dashboards
+USER grafana
