@@ -27,7 +27,10 @@ services:
       - --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
 
   grafana:
-    image: grafana/grafana:11.5.2
+    build:
+      context: .
+      dockerfile: Dockerfile.grafana
+    image: coolify-monitoring-grafana:11.5.2
     restart: unless-stopped
     depends_on:
       - prometheus
@@ -38,8 +41,6 @@ services:
       - GF_SERVER_ROOT_URL=${SERVICE_URL_GRAFANA}
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
-      - ./grafana/dashboards:/var/lib/grafana/dashboards
 
 volumes:
   prometheus-data:
